@@ -29,13 +29,14 @@ namespace PrintZebra
             Console.WriteLine(jml);
             for (int i = 0; i < jml; i++)
             {
-                string id = data[i].id;
-                string barcode = data[i].date;
-                string price = data[i].price;
+                int ticket_id = data[i].id;
+                string barcode = data[i].barcode;
+                int price = data[i].price;
                 string product = data[i].product;
                 string date = data[i].date;
                 string date_plan = data[i].date_plan;
                 string announcement = data[i].announcement;
+                Console.WriteLine(ticket_id);
 
                 string command1 = "^XA" +
                     "^FO50,280 ^BY4 ^BQN,2,8^FD" + barcode + "^FS" +
@@ -67,7 +68,7 @@ namespace PrintZebra
             catch (ConnectionException e)
             {
                 //DemoDialog.showErrorDialog(SendFileDemo.this, e.getMessage(), "Connection Error!");
-                //MessageBox.Show(e.Message);
+                Console.WriteLine(e.Message);
             }
             finally
             {
