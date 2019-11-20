@@ -1,14 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Drawing.Printing;
-using System.Linq;
 using System.Text;
-using System.IO;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Net.Http;
 using EmbedIO;
@@ -61,39 +53,6 @@ namespace PrintZebra
                 label.AppendLine("^XZ");
 
                 PrinterController.SendStringToPrinter("ZDesigner GT800 (EPL)", label.ToString());
-                //sendAndWaitDate(label.ToString());
-            }
-
-
-            //handle disini buat ambil data yang mau dicetak
-        }
-        private void sendAndWaitDate(string prnData)
-        {
-            Connection conn = null;
-            try
-            {
-                conn = new DriverPrinterConnection("ZDesigner GT800 (EPL)");
-                conn.Open();
-
-                byte[] buffer1 = ASCIIEncoding.ASCII.GetBytes(prnData);
-                conn.SendAndWaitForResponse(buffer1, 500, 500, null);
-                conn.Close();
-            }
-            catch (ConnectionException e)
-            {
-                //DemoDialog.showErrorDialog(SendFileDemo.this, e.getMessage(), "Connection Error!");
-                Console.WriteLine(e.Message);
-            }
-            finally
-            {
-                try
-                {
-                    if (conn != null)
-                        conn.Close();
-                }
-                catch (ConnectionException)
-                {
-                }
             }
         }
         public async Task UpdateStatus(int ticket_id, string api_key)
