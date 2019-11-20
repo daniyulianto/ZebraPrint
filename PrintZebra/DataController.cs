@@ -1,6 +1,14 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Drawing.Printing;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Windows.Forms;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Net.Http;
 using EmbedIO;
@@ -31,23 +39,28 @@ namespace PrintZebra
             {
                 int ticket_id = data[i].id;
                 string barcode = data[i].barcode;
-                int price = data[i].price;
-                string product = data[i].product;
-                string date = data[i].date;
-                string date_plan = data[i].date_plan;
-                string announcement = data[i].announcement;
+                string line1 = data[i].line1;
+                string line2 = data[i].line2;
+                string line3 = data[i].line3;
+                string line4 = data[i].line4;
+                string line5 = data[i].line5;
+                string line6 = data[i].line6;
                 Console.WriteLine(ticket_id);
 
-                string command1 = "^XA" +
-                    "^FO50,280 ^BY4 ^BQN,2,8^FD" + barcode + "^FS" +
-                    "^FO50,470 ^ADN,12,12^FD" + barcode + "^FS" +
-                    "^FO50,500 ^ADN,12,12^FD" + date + "^FS" +
-                    "^FO50,520 ^ADN,12,12^FDCSR038-20190906-00002^FS" +
-                    "^FO50,540 ^ADN,12,12^FD"+ price +"^FS" +
-                    "^FO50,560 ^ADN,12,12^FDDATE IN : "+ date_plan +
-                    "^FO50,590 ^ADN,12,12^FD"+ announcement + "^FS" +
-                    "^XZ";
-                sendAndWaitDate(command1);
+                StringBuilder label = new StringBuilder();
+                label.AppendLine("^XA");
+                label.AppendLine("^FO140,300^BY4^BQN,2,8^FD000"+barcode+"^FS ");//qrcode
+                label.AppendLine("^FO105,485^ADN,12,12^FD"+barcode+"^FS");
+                label.AppendLine("^FO140,510^ADN,12,12^FD"+line1+"^FS");//line1
+                label.AppendLine("^FO140,535^ADN,12,12^FD"+line2+"^FS");//line2
+                label.AppendLine("^FO140,560^ADN,12,12^FD"+line3+"^FS");//line3
+                label.AppendLine("^FO420,450^ABB,5,10^FD"+line4+"^FS");//line4
+                label.AppendLine("^FO10,480^ABB,5,10^FD"+line5+"^FS");//line5
+                label.AppendLine("^FO30,615^ADN,12,8^FD"+line6+"^FS");//linE6
+                label.AppendLine("^XZ");
+
+                PrinterController.SendStringToPrinter("ZDesigner GT800 (EPL)", label.ToString());
+                //sendAndWaitDate(label.ToString());
             }
 
 

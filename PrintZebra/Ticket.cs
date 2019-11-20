@@ -5,11 +5,12 @@ namespace PrintZebra
     {
         public int id { get; set; }
         public string barcode { get; set; }
-        public int price { get; set; }
-        public string product { get; set; }
-        public string date { get; set; }
-        public string date_plan { get; set; }
-        public string announcement { get; set; }
+        public string line1 { get; set; }
+        public string line2 { get; set; }
+        public string line3 { get; set; }
+        public string line4 { get; set; }
+        public string line5 { get; set; }
+        public string line6 { get; set; }
     }
     public class Data
     {
