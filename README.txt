@@ -8,3 +8,6 @@
 ^FO10,390^ABB,5,10^FDDate: 2019-11-11^FS
 ^FO30,600 ^ADN,8,6^FDJangan dibuang, berhadiah mobil^FS 
 ^XZ
+
+test disini:
+http://labelary.com/viewer.html
