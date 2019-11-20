@@ -49,6 +49,7 @@ namespace PrintZebra
 
                 StringBuilder label = new StringBuilder();
                 label.AppendLine("^XA");
+                label.AppendLine("^POI");
                 label.AppendLine("^FO140,300^BY4^BQN,2,8^FD000"+barcode+"^FS ");//qrcode
                 label.AppendLine("^FO105,485^ADN,12,12^FD"+barcode+"^FS");
                 label.AppendLine("^FO140,510^ADN,12,12^FD"+line1+"^FS");//line1
