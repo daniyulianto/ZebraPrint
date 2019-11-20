@@ -45,3 +45,6 @@ C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.csproj.Ge
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.csproj.CopyComplete
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.exe
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.pdb
+C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.csprojAssemblyReference.cache
+C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Debug\INIFileParser.dll
+C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Debug\INIFileParser.xml

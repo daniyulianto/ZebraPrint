@@ -6,7 +6,8 @@ using System.Net.Http;
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
-using Swan.Formatters;
+using IniParser;
+using IniParser.Model;
 
 
 namespace PrintZebra
@@ -22,8 +23,14 @@ namespace PrintZebra
 
         }
 
-        private void CetakTicket(List<Ticket> data)
+        private async void CetakTicket(List<Ticket> data)
         {
+            var parser = new FileIniDataParser();
+            IniData iniData = parser.ReadFile("Configuration.ini");
+            string serverUrl = iniData["server"]["url"];
+            string merkPrinter = iniData["server"]["printer"];
+            string serverApi = iniData["server"]["api"];
+
             int jml = data.Count;
             Console.WriteLine(jml);
             for (int i = 0; i < jml; i++)
@@ -50,24 +57,19 @@ namespace PrintZebra
                 label.AppendLine("^FO10,480^ABB,5,10^FD"+line5+"^FS");//line5
                 label.AppendLine("^FO30,615^ADN,12,8^FD"+line6+"^FS");//linE6
                 label.AppendLine("^XZ");
-
-                PrinterController.SendStringToPrinter("ZDesigner GT800 (EPL)", label.ToString());
+                PrinterController.SendStringToPrinter(merkPrinter, label.ToString());
+                await UpdateStatus(ticket_id, serverApi, serverUrl);
             }
         }
-        public async Task UpdateStatus(int ticket_id, string api_key)
+        public async Task UpdateStatus(int ticket_id, string api_key, string server_url)
         {
             var client = new HttpClient();
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Put, "http://localhost/saloka/ticket/print_proxy/" + ticket_id);
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, server_url+"/saloka/ticket/print_proxy/" + ticket_id);
             requestMessage.Headers.Add("X-Api-Key", api_key);
-            requestMessage.Headers.Add("Content-Type", "application/json");
-            HttpResponseMessage response = await client.SendAsync(requestMessage);
-            var result = Json.Deserialize<PrintResult>(await response.Content.ReadAsStringAsync());
-            GetResult(result);
-        }
-
-        private void GetResult(PrintResult result)
-        {
-            //handle disini hasil response dari odoo
+            requestMessage.Content = new StringContent("{}",
+                                    Encoding.UTF8,
+                                    "application/json");
+            _ = await client.SendAsync(requestMessage);
         }
     }
 }

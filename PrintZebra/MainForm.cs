@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Drawing;
-using System.Text;
+using System.IO;
 using System.Windows.Forms;
 using EmbedIO;
 using EmbedIO.WebApi;
 using Swan.Logging;
+using IniParser;
+using IniParser.Model;
 
 
 namespace PrintZebra
@@ -14,6 +16,16 @@ namespace PrintZebra
         public MainForm()
         {
             InitializeComponent();
+            var parser = new FileIniDataParser();
+            if (File.Exists("Configuration.ini") == false)
+            {
+                IniData data = new IniData();
+                data["server"]["url"] = "https://saloka.arkana.app";
+                data["server"]["printer"] = "ZDesigner GT800 (EPL)";
+                data["server"]["api"] = "654321";
+                parser.WriteFile("Configuration.ini", data);
+
+            }
             var url = "http://localhost:9696/";
             using (var server = StartWebServer(url))
             {
@@ -44,6 +56,11 @@ namespace PrintZebra
             notifyIcon.Icon = SystemIcons.Application;
             notifyIcon.Visible = true;
             
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
