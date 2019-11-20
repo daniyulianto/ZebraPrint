@@ -56,7 +56,7 @@ C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Debug\SdkApi.Desktop.xml
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Debug\Swan.Lite.xml
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Debug\ZebraPrinterSdk.xml
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.csprojAssemblyReference.cache
-C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.Form1.resources
+C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.MainForm.resources
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.Properties.Resources.resources
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.csproj.GenerateResource.cache
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Debug\PrintZebra.csproj.CopyComplete
