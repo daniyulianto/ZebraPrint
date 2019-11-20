@@ -7,7 +7,6 @@ using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using Swan.Formatters;
-using Zebra.Sdk.Comm;
 
 
 namespace PrintZebra
