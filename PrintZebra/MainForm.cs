@@ -55,7 +55,7 @@ namespace PrintZebra
         }
         private void Form1_Load(object sender, EventArgs e)
         {
-            //this.ShowInTaskbar = false;
+            this.ShowInTaskbar = false;
             var parser = new FileIniDataParser();
             List<string> PrinterResult = new List<string>();
             foreach (Printer printerResult in GetPrinter())
@@ -113,6 +113,25 @@ namespace PrintZebra
         public class Printer
         {
             public string Name { get; set; }
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.WindowState = FormWindowState.Normal;
+            if ( this.WindowState == FormWindowState.Normal)
+            {
+                this.ShowInTaskbar = true;
+                notifyIcon.Visible = false;
+            }
+        }
+
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.ShowInTaskbar = false;
+                notifyIcon.Visible = true;
+            }
         }
     }
 }

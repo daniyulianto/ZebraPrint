@@ -53,14 +53,15 @@ namespace PrintZebra
                 StringBuilder label = new StringBuilder();
                 label.AppendLine("^XA");
                 label.AppendLine("^POI");
-                label.AppendLine("^FO140,300^BY4^BQN,2,8^FDAM,A"+barcode+"^FS ");
-                label.AppendLine("^FO105,485^ADN,12,12^FD"+barcode+"^FS");
-                label.AppendLine("^FO140,510^ADN,12,12^FD"+line1+"^FS");
-                label.AppendLine("^FO140,535^ADN,12,12^FD"+line2+"^FS");
-                label.AppendLine("^FO140,560^ADN,12,12^FD"+line3+"^FS");
-                label.AppendLine("^FO420,450^ABB,5,10^FD"+line4+"^FS");
-                label.AppendLine("^FO10,480^ABB,5,10^FD"+line5+"^FS");
-                label.AppendLine("^FO30,615^ADN,12,8^FD"+line6+"^FS");
+                label.AppendLine("^FO15,300^BY4^BQN,2,8^FDAM,A" + barcode + "^FS ");
+                label.AppendLine("^FO25,490^ADN,12,12^FD" + barcode + "^FS");
+                label.AppendLine("^FO200,430^ADN,12,12^FD" + line1 + "^FS");
+                label.AppendLine("^FB250,3,0,L,0^FO200,340^ADN,12,12^FD" + line2 + "^FS");
+                label.AppendLine("^FO200,400^ADN,12,12^FD" + line3 + "^FS");
+                label.AppendLine("^FO200,460^ADN,12,12^FD" + line4 + "^FS");
+                label.AppendLine("^FO200,310^ADN,12,12^FD" + line5 + "^FS");
+                label.AppendLine("^FB430,2,0,C,0^FO8,540^ADN,5,10^FD" + line6 + "^FS");
+                label.AppendLine("^FB430,2,0,C,0^FO8,600^ADN,5,10^FDCeria Tiada Habisnya!^FS");
                 label.AppendLine("^XZ");
                 if (PrinterController.SendStringToPrinter(merkPrinter, label.ToString()) == true)
                 {
