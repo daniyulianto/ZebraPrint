@@ -8,7 +8,8 @@ using EmbedIO.Routing;
 using EmbedIO.WebApi;
 using IniParser;
 using IniParser.Model;
-
+using RestSharp;
+using Newtonsoft.Json;
 
 namespace PrintZebra
 {
@@ -30,9 +31,13 @@ namespace PrintZebra
             string serverUrl = iniData["server"]["url"];
             string merkPrinter = iniData["server"]["printer"];
             string serverApi = iniData["server"]["api"];
-
+            List<int> ticket_ids = new List<int>();
             int jml = data.Count;
-            Console.WriteLine(jml);
+            foreach (Ticket ticket in data)
+            {
+                ticket_ids.Add(ticket.id);
+            }
+            await SendPrintingStatus(ticket_ids, serverApi, serverUrl, "printing");
             for (int i = 0; i < jml; i++)
             {
                 int ticket_id = data[i].id;
@@ -48,28 +53,46 @@ namespace PrintZebra
                 StringBuilder label = new StringBuilder();
                 label.AppendLine("^XA");
                 label.AppendLine("^POI");
-                label.AppendLine("^FO140,300^BY4^BQN,2,8^FDAM,A"+barcode+"^FS ");//qrcode
-                label.AppendLine("^FO105,485^ADN,12,12^FD"+barcode+"^FS");
-                label.AppendLine("^FO140,510^ADN,12,12^FD"+line1+"^FS");//line1
-                label.AppendLine("^FO140,535^ADN,12,12^FD"+line2+"^FS");//line2
-                label.AppendLine("^FO140,560^ADN,12,12^FD"+line3+"^FS");//line3
-                label.AppendLine("^FO420,450^ABB,5,10^FD"+line4+"^FS");//line4
-                label.AppendLine("^FO10,480^ABB,5,10^FD"+line5+"^FS");//line5
-                label.AppendLine("^FO30,615^ADN,12,8^FD"+line6+"^FS");//linE6
+                label.AppendLine("^FO15,300^BY4^BQN,2,8^FDAM,A" + barcode + "^FS ");
+                label.AppendLine("^FO25,490^ADN,12,12^FD" + barcode + "^FS");
+                label.AppendLine("^FO200,430^ADN,12,12^FD" + line1 + "^FS");
+                label.AppendLine("^FB250,3,0,L,0^FO200,340^ADN,12,12^FD" + line2 + "^FS");
+                label.AppendLine("^FO200,400^ADN,12,12^FD" + line3 + "^FS");
+                label.AppendLine("^FO200,460^ADN,12,12^FD" + line4 + "^FS");
+                label.AppendLine("^FO200,310^ADN,12,12^FD" + line5 + "^FS");
+                label.AppendLine("^FB430,2,0,C,0^FO8,540^ADN,5,10^FD" + line6 + "^FS");
+                label.AppendLine("^FB430,2,0,C,0^FO8,600^ADN,5,10^FDCeria Tiada Habisnya!^FS");
                 label.AppendLine("^XZ");
-                PrinterController.SendStringToPrinter(merkPrinter, label.ToString());
-                await UpdateStatus(ticket_id, serverApi, serverUrl);
+                if (PrinterController.SendStringToPrinter(merkPrinter, label.ToString()) == true)
+                {
+                    await UpdateStatus(ticket_id, serverApi, serverUrl, "printed");
+                }
+                else
+                {
+                    await UpdateStatus(ticket_id, serverApi, serverUrl, "draft");
+                }
+                    
             }
         }
-        public async Task UpdateStatus(int ticket_id, string api_key, string server_url)
+        public async Task UpdateStatus(int ticket_id, string api_key, string server_url, string status)
         {
             var client = new HttpClient();
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, server_url+"/saloka/ticket/print_proxy/" + ticket_id);
+            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, server_url+ "/saloka/ticket/print_proxy/"+status+"/" + ticket_id);
             requestMessage.Headers.Add("X-Api-Key", api_key);
             requestMessage.Content = new StringContent("{}",
                                     Encoding.UTF8,
                                     "application/json");
-            _ = await client.SendAsync(requestMessage);
+            var result = await client.SendAsync(requestMessage);
+
+        }
+        public async Task SendPrintingStatus(List<int> ticket_ids, string api_key, string server_url, string status)
+        {
+            var request = new RestRequest(Method.POST);
+            RestClient url = new RestClient(server_url + "/saloka/ticket/print_proxy/" + status);
+            request.AddHeader("Content-Type", "application/json");
+            request.AddHeader("X-Api-Key", api_key);
+            request.AddParameter("application/json", "{\"ticket_ids\":" + JsonConvert.SerializeObject(ticket_ids) + "}", ParameterType.RequestBody);
+            var result = await url.ExecuteTaskAsync(request);
         }
     }
 }
