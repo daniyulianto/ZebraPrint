@@ -3,12 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
+using Zebra.Sdk.Comm;
 
 namespace PrintZebra
 {
-    class ZebraClass
+    public class ZebraClass
     {
+        public void CetakZebra(string printData, string printerName)
+        {
+            Connection conn = null;
+            try
+            {
+                conn = new DriverPrinterConnection(printerName);
+                conn.Open();
 
+                byte[] buffer1 = ASCIIEncoding.ASCII.GetBytes(printData);
+                conn.SendAndWaitForResponse(buffer1, 500, 500, null);
+                conn.Close();
+            }
+            catch (ConnectionException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            finally
+            {
+                try
+                {
+                    if (conn != null)
+                        conn.Close();
+                }
+                catch (ConnectionException)
+                {
+                }
+            }
+        }
     }
 }

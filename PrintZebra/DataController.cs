@@ -31,6 +31,7 @@ namespace PrintZebra
             string serverUrl = iniData["server"]["url"];
             string merkPrinter = iniData["server"]["printer"];
             string serverApi = iniData["server"]["api"];
+            ZebraClass zebraPrinterHelper = new ZebraClass();
             List<int> ticket_ids = new List<int>();
             int jml = data.Count;
             foreach (Ticket ticket in data)
@@ -63,6 +64,8 @@ namespace PrintZebra
                 label.AppendLine("^FB430,2,0,C,0^FO8,540^ADN,5,10^FD" + line6 + "^FS");
                 label.AppendLine("^FB430,2,0,C,0^FO8,600^ADN,5,10^FDCeria Tiada Habisnya!^FS");
                 label.AppendLine("^XZ");
+                zebraPrinterHelper.CetakZebra(label.ToString(), merkPrinter);
+                /*
                 if (PrinterController.SendStringToPrinter(merkPrinter, label.ToString()) == true)
                 {
                     await UpdateStatus(ticket_id, serverApi, serverUrl, "printed");
@@ -71,6 +74,7 @@ namespace PrintZebra
                 {
                     await UpdateStatus(ticket_id, serverApi, serverUrl, "draft");
                 }
+                */
                     
             }
         }
