@@ -10,7 +10,7 @@ namespace PrintZebra
 {
     public class ZebraClass
     {
-        public void CetakZebra(string printData, string printerName)
+        public bool CetakZebra(string printData, string printerName)
         {
             Connection conn = null;
             try
@@ -21,10 +21,12 @@ namespace PrintZebra
                 byte[] buffer1 = ASCIIEncoding.ASCII.GetBytes(printData);
                 conn.SendAndWaitForResponse(buffer1, 500, 500, null);
                 conn.Close();
+                return true;
             }
             catch (ConnectionException e)
             {
                 MessageBox.Show(e.Message);
+                return false;
             }
             finally
             {

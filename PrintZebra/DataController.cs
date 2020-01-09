@@ -64,9 +64,7 @@ namespace PrintZebra
                 label.AppendLine("^FB430,2,0,C,0^FO8,540^ADN,5,10^FD" + line6 + "^FS");
                 label.AppendLine("^FB430,2,0,C,0^FO8,600^ADN,5,10^FDCeria Tiada Habisnya!^FS");
                 label.AppendLine("^XZ");
-                zebraPrinterHelper.CetakZebra(label.ToString(), merkPrinter);
-                /*
-                if (PrinterController.SendStringToPrinter(merkPrinter, label.ToString()) == true)
+                if (zebraPrinterHelper.CetakZebra(label.ToString(), merkPrinter) == true)
                 {
                     await UpdateStatus(ticket_id, serverApi, serverUrl, "printed");
                 }
@@ -74,8 +72,6 @@ namespace PrintZebra
                 {
                     await UpdateStatus(ticket_id, serverApi, serverUrl, "draft");
                 }
-                */
-                    
             }
         }
         public async Task UpdateStatus(int ticket_id, string api_key, string server_url, string status)
