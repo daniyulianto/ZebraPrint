@@ -52,6 +52,23 @@ namespace PrintZebra
                 Console.WriteLine(ticket_id);
 
                 StringBuilder label = new StringBuilder();
+                label.AppendLine("N");
+                label.AppendLine("ZT");
+                label.AppendLine("D10");
+                label.AppendLine("Q680,B24");
+                label.AppendLine("q440");
+                label.AppendLine("b30,300,P,380,800,x2,y11,l100,r100,f0,s5,\"" + barcode + "\"");
+                label.AppendLine("A70,430,0,1,2,2,N,\"" + barcode + "\"");
+                label.AppendLine("A30,470,0,1,1,1,N,\"" + line1 + "\"");
+                label.AppendLine("A30,490,0,1,1,1,N,\"" + line2 + "\"");
+                label.AppendLine("A30,510,0,1,1,1,N,\"" + line3 + "\"");
+                label.AppendLine("A30,530,0,1,1,1,N,\"" + line4 + " \"");
+                label.AppendLine("A30,550,0,1,1,1,N,\"" + line5 + " \"");
+                label.AppendLine("A30,570,0,1,1,1,N,\"" + line6 + " \"");
+                label.AppendLine("A100,620,0,1,1,1,N,\"Ceria Tiada Habisnya!\"");
+                label.AppendLine("ZT");
+                label.AppendLine("P1");
+                /*
                 label.AppendLine("^XA");
                 label.AppendLine("^POI");
                 label.AppendLine("^FO15,300^BY4^BQN,2,8^FDAM,A" + barcode + "^FS ");
@@ -64,6 +81,7 @@ namespace PrintZebra
                 label.AppendLine("^FB430,2,0,C,0^FO8,540^ADN,5,10^FD" + line6 + "^FS");
                 label.AppendLine("^FB430,2,0,C,0^FO8,600^ADN,5,10^FDCeria Tiada Habisnya!^FS");
                 label.AppendLine("^XZ");
+                */
                 if (zebraPrinterHelper.CetakZebra(label.ToString(), merkPrinter) == true)
                 {
                     await UpdateStatus(ticket_id, serverApi, serverUrl, "printed");
