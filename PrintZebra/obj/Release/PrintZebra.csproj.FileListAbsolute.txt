@@ -46,10 +46,10 @@ C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Release\SdkApi.Core.xml
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Release\SdkApi.Desktop.xml
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Release\Swan.Lite.xml
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\bin\Release\ZebraPrinterSdk.xml
-C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.csprojAssemblyReference.cache
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.MainForm.resources
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.Properties.Resources.resources
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.csproj.GenerateResource.cache
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.csproj.CopyComplete
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.exe
 C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.pdb
+C:\Users\behin\source\repos\ZebraPrint\PrintZebra\obj\Release\PrintZebra.csprojAssemblyReference.cache

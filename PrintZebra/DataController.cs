@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net.Http;
 using EmbedIO;
 using EmbedIO.Routing;
 using EmbedIO.WebApi;
@@ -33,6 +32,8 @@ namespace PrintZebra
             string serverApi = iniData["server"]["api"];
             ZebraClass zebraPrinterHelper = new ZebraClass();
             List<int> ticket_ids = new List<int>();
+            PrintTicket printTicket = new PrintTicket();
+            printTicket.tickets = new List<TicketData>();
             int jml = data.Count;
             foreach (Ticket ticket in data)
             {
@@ -57,6 +58,9 @@ namespace PrintZebra
                 label.AppendLine("D10");
                 label.AppendLine("Q680,B24");
                 label.AppendLine("q440");
+                //test on 10*10 label 
+                //label.AppendLine("Q800,24");
+                //label.AppendLine("q800");
                 label.AppendLine("b30,300,P,380,800,x2,y11,l100,r100,f0,s5,\"" + barcode + "\"");
                 label.AppendLine("A70,430,0,1,2,2,N,\"" + barcode + "\"");
                 label.AppendLine("A30,470,0,1,1,1,N,\"" + line1 + "\"");
@@ -68,6 +72,7 @@ namespace PrintZebra
                 label.AppendLine("A100,620,0,1,1,1,N,\"Ceria Tiada Habisnya!\"");
                 label.AppendLine("ZT");
                 label.AppendLine("P1");
+                printTicket.tickets.Add(new TicketData { id = ticket_id, ticket = label.ToString() });
                 /*
                 label.AppendLine("^XA");
                 label.AppendLine("^POI");
@@ -82,26 +87,9 @@ namespace PrintZebra
                 label.AppendLine("^FB430,2,0,C,0^FO8,600^ADN,5,10^FDCeria Tiada Habisnya!^FS");
                 label.AppendLine("^XZ");
                 */
-                if (zebraPrinterHelper.CetakZebra(label.ToString(), merkPrinter) == true)
-                {
-                    await UpdateStatus(ticket_id, serverApi, serverUrl, "printed");
-                }
-                else
-                {
-                    await UpdateStatus(ticket_id, serverApi, serverUrl, "draft");
-                }
             }
-        }
-        public async Task UpdateStatus(int ticket_id, string api_key, string server_url, string status)
-        {
-            var client = new HttpClient();
-            HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Post, server_url+ "/saloka/ticket/print_proxy/"+status+"/" + ticket_id);
-            requestMessage.Headers.Add("X-Api-Key", api_key);
-            requestMessage.Content = new StringContent("{}",
-                                    Encoding.UTF8,
-                                    "application/json");
-            var result = await client.SendAsync(requestMessage);
-
+            //await zebraPrinterHelper.CetakZebraAsync(printTicket, merkPrinter);
+            await zebraPrinterHelper.CetakWindowsAsync(printTicket, merkPrinter);
         }
         public async Task SendPrintingStatus(List<int> ticket_ids, string api_key, string server_url, string status)
         {
@@ -110,7 +98,7 @@ namespace PrintZebra
             request.AddHeader("Content-Type", "application/json");
             request.AddHeader("X-Api-Key", api_key);
             request.AddParameter("application/json", "{\"ticket_ids\":" + JsonConvert.SerializeObject(ticket_ids) + "}", ParameterType.RequestBody);
-            var result = await url.ExecuteTaskAsync(request);
+            _ = await url.ExecuteTaskAsync(request);
         }
     }
 }

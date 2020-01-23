@@ -59,7 +59,6 @@ namespace PrintZebra
             this.ShowInTaskbar = false;
             var parser = new FileIniDataParser();
             List<string> PrinterResult = new List<string>();
-            //ZebraClass zebraPrinterHelper = new ZebraClass();
             foreach (Printer printerResult in GetPrinter())
             {
                 PrinterResult.Add(printerResult.Name);
@@ -75,26 +74,6 @@ namespace PrintZebra
             saveBtn.Enabled = false;
             server_url.Enabled = false;
             printer.Enabled = false;
-            /*
-            StringBuilder label = new StringBuilder();
-            label.AppendLine("N");
-            label.AppendLine("ZT");
-            label.AppendLine("D10");
-            label.AppendLine("Q680,B24");
-            label.AppendLine("q440");
-            label.AppendLine("b30,300,P,380,800,x2,y11,l100,r100,f0,s5,\"12345678900000\"");
-            label.AppendLine("A70,430,0,1,2,2,N,\"12345678900000\"");
-            label.AppendLine("A30,470,0,1,1,1,N,\"Line Pertama\"");
-            label.AppendLine("A30,490,0,1,1,1,N,\"Line Kedua\"");
-            label.AppendLine("A30,510,0,1,1,1,N,\"Line Ketiga\"");
-            label.AppendLine("A30,530,0,1,1,1,N,\"Line Keempat \"");
-            label.AppendLine("A30,550,0,1,1,1,N,\"Line Kelima \"");
-            label.AppendLine("A30,570,0,1,1,1,N,\"Line Keenam \"");
-            label.AppendLine("A100,620,0,1,1,1,N,\"Ceria Tiada Habisnya\"");
-            label.AppendLine("ZT");
-            label.AppendLine("P1");
-            zebraPrinterHelper.CetakZebra(label.ToString(), selectedPrinter);
-            */
         }
         private void saveBtn_Click(object sender, EventArgs e)
         {

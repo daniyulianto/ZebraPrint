@@ -103,7 +103,7 @@ namespace PrintZebra
             Marshal.FreeCoTaskMem(pUnmanagedBytes);
             return bSuccess;
         }
-        public static bool SendStringToPrinter(string szPrinterName, string szString)
+        public bool SendStringToPrinter(string szPrinterName, string szString)
         {
             IntPtr pBytes;
             Int32 dwCount;
